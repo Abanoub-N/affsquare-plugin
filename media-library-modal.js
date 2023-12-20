@@ -19,10 +19,9 @@ jQuery(document).ready(function ($) {
 
         customUploader.on('select', function () {
             var attachment = customUploader.state().get('selection').first().attributes;
-            console.log("attachment", attachment);
-            console.log("customUploader", attachment.filename);
-            $('#affsquare_logo_id').val(attachment.id);
-            $('img[alt="Current Logo"]').attr('src', attachment.url);
+            // console.log("attachment", attachment);
+            $('#affsquare_logo_url').val(attachment.url);
+            $('img.view_logo').attr('src', attachment.url);
         });
 
         customUploader.open();

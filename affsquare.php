@@ -25,11 +25,11 @@ function affsquare_logo_section_callback() {
 }
 
 function affsquare_logo_callback() {
-    $logo_id = get_option('affsquare_logo_id', '');
-    echo '<input type="text" id="affsquare_logo_id" name="affsquare_logo_id" value="' . wp_get_attachment_url($logo_id) . '" style="width: 35%;"/>';
+    $logo_id = get_option('affsquare_logo_url', '');
+    echo '<input type="text" id="affsquare_logo_url" name="affsquare_logo_url" value="' . $logo_id . '" style="width: 35%;"/>';
     echo '<button class="button" id="affsquare_logo_upload_button">Upload or choose from Media Library</button>';
     if ($logo_id) {
-        echo '<br/><br/><img src="' . esc_url(wp_get_attachment_url($logo_id)) . '" alt="Current Logo" style="max-width: 300px; height: auto;" />';
+        echo '<br/><br/><img class="view_logo" src="' . $logo_id . '" alt="Current Logo" style="max-width: 300px; height: auto;" />';
     }
 }
 
@@ -49,10 +49,10 @@ function affsquare_settings_page() {
 function affsquare_settings() {
     register_setting(
         'affsquare_logo_section',
-        'affsquare_logo_id',
+        'affsquare_logo_url',
         array(
-            'type' => 'integer',
-            'sanitize_callback' => 'absint',
+            'type' => 'string',
+            'sanitize_callback' => null,
         )
     );
 
@@ -64,7 +64,7 @@ function affsquare_settings() {
     );
 
     add_settings_field(
-        'affsquare_logo_id',
+        'affsquare_logo_url',
         'Logo Image',
         'affsquare_logo_callback',
         'affsquare_logo_page',
@@ -84,7 +84,7 @@ add_action('admin_enqueue_scripts', 'affsquare_enqueue_media_library_modal_scrip
 
 
 function affsquare_display_custom_logo() {
-    $logo_id = get_option('affsquare_logo_id', '');
+    $logo_id = get_option('affsquare_logo_url', '');
 
     if (!empty($logo_id)) {
 ?>
@@ -92,8 +92,8 @@ function affsquare_display_custom_logo() {
         <script>
             jQuery(document).ready(function ($) {
                 $('.et_pb_menu__logo img').attr({
-                    src: '<?= wp_get_attachment_url($logo_id) ?>',
-                    srcset: '<?= wp_get_attachment_url($logo_id) ?>' 
+                    src: '<?= $logo_id ?>',
+                    srcset: '<?= $logo_id ?>' 
                 })
             })
         </script>
